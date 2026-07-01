@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간니닌니🐾</title>
+    
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* 폰트 */
+        @font-face { 
+            font-family: 'OnglippDaelong';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2507-2@1.0/Ownglyph_daelong-Rg.woff2') format('woff2');
+            font-weight: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'OnglippDaelong', sans-serif;
+            font-weight: 700;
+            -webkit-tap-highlight-color: transparent; /* 모바일 터치지 */
+        }
+
+        body {
+            /* 핑크 도트 */
+            background-color: #a8948e;
+            background-image: radial-gradient(#ffe1eb 10%, transparent 6%),
+                              radial-gradient(#ffe1eb 10%, transparent 6%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+            gap: 24px; /* 여러 박스 사이의 간격 */
+        }
+
+        /* 메인 카드 및 추가 박스 공통 스타일 */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background-color: #ffffff;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 12px 0px #edd1d8, 0 15px 30px rgba(0, 0, 0, 0.08);
+            border: 4px solid #e7b3ba;
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        /* 카드 내부 그룹 타이틀 */
+        .card-header {
+            padding: 24px 24px 12px;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #5f4746;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-bottom: 2px dashed #ffe1eb;
+            margin-bottom: 20px;
+        }
+
+        .background-banner {
+            height: 200px;
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0.85) 75%, rgba(255, 255, 255, 1) 100%), 
+                              url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/clans/31401621/53404f711bbc8b263c0aa292108dc203aa71c0f6.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .profile-section {
+            text-align: center;
+            padding: 0 20px;
+            margin-top: -80px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 10; 
+        }
+
+        .profile-img-wrapper {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 5px solid #ffffff;
+            overflow: hidden;
+            margin: 0 auto 15px;
+            box-shadow: 0 0 0 4px #ffccd2, 0 6px 12px rgba(255, 180, 190, 0.4);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-naver {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .profile-name {
+            font-size: 2.2rem;
+            color: #5f4746;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 0px #fff, 2.5px 2.5px 0px #ffccd2;
+        }
+
+        .profile-bio {
+            font-size: 1.4rem;
+            color: #6d6b6a;
+            background-color: #fff5f6;
+            display: inline-block;
+            padding: 4px 18px;
+            border-radius: 16px;
+            border: 1.5px dashed #e9aeb5;
+            margin-top: 5px;
+        }
+
+        /* 버튼 리스트 영역 */
+        .links-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 0 24px;
+        }
+
+        /* 한 줄 레이아웃 (가로 정렬용) */
+        .button-row {
+            display: flex;
+            gap: 6px; /* 두 버튼 사이의 귀여운 틈 */
+            width: 100%;
+            align-items: stretch; /* 두 버튼의 높이를 강제로 동일하게 맞춤 */
+        }
+
+        /* 메인 링크 이동 버튼 (왼쪽) */
+        .main-link-btn {
+            flex: 1; /* 가로 공간을 최대한 차지하도록 설정 */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 20px;
+            border: 3px solid #5f4746;
+            text-decoration: none;
+            color: #58504d;
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+        }
+
+        /* 아이디 복사 버튼 (오른쪽) */
+        .copy-action-btn {
+            width: 75px; /* 컴팩트한 복사 전용 가로 사이즈 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            border-radius: 20px;
+            border: 3px solid #5f4746;
+            cursor: pointer;
+            color: #58504d;
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+        }
+
+        /* 아이디 복사 버튼 내 텍스트 크기 조절 */
+        .copy-action-btn span {
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .copy-action-btn i {
+            font-size: 1.15rem;
+        }
+
+
+        /* 1. 크림 옐로우 테마 (#fff8cc) */
+        .theme-cream-main {
+            background-color: #fff8cc;
+            box-shadow: 0 6px 0px #edd693;
+            border-color: #a79277;
+        }
+        .theme-cream-main:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px #edd693;
+            background-color: #fffce3;
+        }
+        .theme-cream-main:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #edd693;
+        }
+
+        .theme-cream-copy {
+            background-color: #fffdec;
+            box-shadow: 0 6px 0px #edd693;
+            border-color: #a79277;
+        }
+        .theme-cream-copy:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px #edd693;
+            background-color: #ffe853; /* 쨍한 바나나 연노랑 */
+            border-color: #5f4746;
+        }
+        .theme-cream-copy:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #edd693;
+        }
+
+        /* 2. 파스텔 로즈 테마 (#f0d5db) */
+        .theme-rose-main {
+            background-color: #f0d5db;
+            box-shadow: 0 6px 0px #caa1a8;
+            border-color: #b39298;
+        }
+        .theme-rose-main:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px #caa1a8;
+            background-color: #fcecef;
+        }
+        .theme-rose-main:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #caa1a8;
+        }
+
+        .theme-rose-copy {
+            background-color: #faf0f2;
+            box-shadow: 0 6px 0px #caa1a8;
+            border-color: #b39298;
+        }
+        .theme-rose-copy:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px #caa1a8;
+            background-color: #ff9ebb; /* 쨍한 딸기우유 연분홍 */
+            border-color: #5f4746;
+        }
+        .theme-rose-copy:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #caa1a8;
+        }
+
+        /* 3. 옐로우-믹스 파스텔 민트 테마 (#c1dbc8 기반 부드러운 그린) */
+        .theme-mint-main {
+            background-color: #cfe2c6;
+            box-shadow: 0 6px 0px #acbc9b;
+            border-color: #92a089;
+        }
+        .theme-mint-main:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px #a3bc9b;
+            background-color: #dfedd3; /* 옐로우가 살짝 섞인 맑은 느낌 */
+        }
+        .theme-mint-main:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #abbc9b;
+        }
+
+        .theme-mint-copy {
+            background-color: #eff7ed;
+            box-shadow: 0 6px 0px #a5bc9b;
+            border-color: #92a089;
+        }
+        .theme-mint-copy:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px #a0bc9b;
+            background-color: #9ad488; /* 쨍한 피스타치오 연두 */
+            border-color: #92a089;
+        }
+        .theme-mint-copy:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #9bbca0;
+        }
+
+        /* 4. 비활성화 / 예정 상태 파스텔 테마 */
+        .theme-disabled {
+            background-color: #f3ede2;
+            box-shadow: 0 6px 0px #d0c8be;
+            border-color: #a3998f;
+            color: #a3998f;
+            opacity: 0.75;
+            cursor: not-allowed;
+            pointer-events: none; /* 클릭 불가 */
+        }
+
+        /* 공통 텍스트 */
+        .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-left i { font-size: 1.7rem; }
+
+        .btn-title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .btn-main-text {
+            font-size: 1.35rem;
+            line-height: 1.2;
+        }
+
+        .btn-sub-text {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        /* 복사 완료  */
+        .toast-message {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: #dd939f;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            border: 3px solid #ffffff;
+            box-shadow: 0 8px 16px rgba(255, 107, 129, 0.4);
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .toast-message.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- [박스 1] 메인 프로필 및 SNS 카드 -->
+    <div class="container">
+        <!-- 배경 배너 -->
+        <div class="background-banner"></div>
+
+        <!-- 프로필 -->
+        <div class="profile-section">
+            <div class="profile-img-wrapper">
+                <img src="https://yt3.ggpht.com/matYcgb_NGny98GYWNtwhVP6FbRyg_WIHafSIAicXn8p0VCROk4idABuuEAMbdteGvPzDLmgww=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="프로필 사진" class="profile-img">
+            </div>
+            <h1 class="profile-name">가이니.. 🐾</h1>
+            <p class="profile-bio">안녕하하세요</p>
+        </div>
+
+        <!-- 링크트리 버튼 -->
+        <div class="links-section">
+            
+            <!-- 1. 블로그 (단독 꽉 찬 버튼) / 크림 옐로우 적용 -->
+            <div class="button-row">
+                <a href="https://blog.naver.com/fluff08" target="_blank" class="main-link-btn theme-cream-main" style="width: 100%;">
+                    <div class="btn-left">
+                        <img src="https://images.icon-icons.com/3913/PNG/512/naver_logo_icon_248398.png" alt="네이버블로그" class="logo-naver">
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">블로그 서이</span>
+                            <span class="btn-sub-text">정신병 일기 훔쳐보기</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 2. 인스타그램 버튼 / 파스텔 로즈 적용 -->
+            <div class="button-row">
+                <!-- 이동 링크 (왼쪽) -->
+                <a href="https://www.instagram.com/or.ld5cr/" target="_blank" class="main-link-btn theme-rose-main">
+                    <div class="btn-left">
+                        <i class="fa-brands fa-instagram" style="color: #d4507c;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">인스타그램 비계</span>
+                            <span class="btn-sub-text">맞팔하기</span>
+                        </div>
+                    </div>
+                </a>
+                <!-- 아이디 복사 (오른쪽) -->
+                <div class="copy-action-btn theme-rose-copy" data-copy="@or.ld5cr" data-label="ID">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>ID 복사</span>
+                </div>
+            </div>
+
+            <!-- 3. 디스코드 버튼 / 파스텔 민트 적용 -->
+            <div class="button-row">
+                <!-- 이동 링크 (왼쪽) -->
+                <a href="https://discord.gg/gj6cUAvx" target="_blank" class="main-link-btn theme-mint-main">
+                    <div class="btn-left">
+                        <i class="fa-brands fa-discord" style="color: #757dd6;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">디스코드</span>
+                            <span class="btn-sub-text">친구 추가하기</span>
+                        </div>
+                    </div>
+                </a>
+                <!-- 태그 복사 (오른쪽) -->
+                <div class="copy-action-btn theme-mint-copy" data-copy="fluff08_" data-label="태그">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>태그 복사</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- [박스 2] 마인크래프트 멀티 박스 (하얀색 박스로 구성) -->
+    <div class="container">
+        <div class="card-header">
+            <i class="fa-solid fa-cube" style="color: #7c8d6b;"></i>
+            <span>Minecraft</span>
+        </div>
+        
+        <div class="links-section">
+            <!-- 마인크래프트 Java 에디션 / 파스텔 민트 적용 -->
+            <div class="button-row">
+                <div class="main-link-btn theme-mint-main" style="cursor: default;">
+                    <div class="btn-left">
+                        <i class="fa-solid fa-cubes" style="color: #c9aaa1;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">Java 마크</span>
+                            <span class="btn-sub-text" style="color: #ef8b9c;"> fluff0825 서버를 파달라</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="copy-action-btn theme-mint-copy" data-copy="fluff0825" data-label="ID">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>ID 복사</span>
+                </div>
+            </div>
+
+            <!-- 마인크래프트 Bedrock 에디션 / 크림 옐로우 적용 -->
+            <div class="button-row">
+                <div class="main-link-btn theme-cream-main" style="cursor: default;">
+                    <div class="btn-left">
+                        <i class="fa-solid fa-mobile-screen" style="color: #9bbde4;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">Bedrock 마크</span>
+                            <span class="btn-sub-text">Gabiya13</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="copy-action-btn theme-cream-copy" data-copy="Gabiya13" data-label="ID">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>ID 복사</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [박스 3] 스팀 & 프세카 친구코드 박스 (하얀색 박스로 구성) -->
+    <div class="container">
+        <div class="card-header">
+            <i class="fa-solid fa-gamepad" style="color: #dba7af;"></i>
+            <span>Game</span>
+        </div>
+
+        <div class="links-section">
+            <!-- 스팀 친구하기 버튼 / 파스텔 로즈 적용 -->
+            <div class="button-row">
+                <div class="main-link-btn theme-rose-main" style="cursor: default;">
+                    <div class="btn-left">
+                        <i class="fa-brands fa-steam" style="color: #434955;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">스팀 친구하기</span>
+                            <span class="btn-sub-text">코드: 1190379818</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="copy-action-btn theme-rose-copy" data-copy="1190379818" data-label="코드">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>코드 복사</span>
+                </div>
+            </div>
+
+            <!-- 프로젝트 세카이 한국서버 / 파스텔 민트 적용 -->
+            <div class="button-row">
+                <div class="main-link-btn theme-mint-main" style="cursor: default;">
+                    <div class="btn-left">
+                        <i class="fa-solid fa-music" style="color: #7eacb1;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">프로젝트 세카이 한섭</span>
+                            <span class="btn-sub-text">ID: 7240346274816760577</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="copy-action-btn theme-mint-copy" data-copy="7240346274816760577" data-label="ID">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>ID 복사</span>
+                </div>
+            </div>
+            <!-- 프로젝트 세카이 일본 서버 / 파스텔 민트 적용 -->
+            <div class="button-row">
+                <div class="main-link-btn theme-mint-main" style="cursor: default;">
+                    <div class="btn-left">
+                        <i class="fa-solid fa-music" style="color: #7eacb1;"></i>
+                        <div class="btn-title-group">
+                            <span class="btn-main-text">프로젝트 세카이 일섭</span>
+                            <span class="btn-sub-text">ID: 695170209398104072</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="copy-action-btn theme-mint-copy" data-copy="695170209398104072" data-label="ID">
+                    <i class="fa-regular fa-clone"></i>
+                    <span>ID 복사</span>
+                </div>
+            </div>
+
+
+    <!-- 복사 완료 알림 토스트 -->
+    <div id="toast" class="toast-message">📋 복사 완료! 붙여넣기 ㄱㄱ 💖</div>
+
+    <script>
+        // 복사 버튼 기능 연결 및 효과 부여
+        document.querySelectorAll('.copy-action-btn').forEach(btn => {
+            const textToCopy = btn.getAttribute('data-copy');
+            const labelText = btn.getAttribute('data-label');
+            const icon = btn.querySelector('i');
+            const span = btn.querySelector('span');
+
+            // 클릭 시 클립보드 복사 작동
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const toast = document.getElementById('toast');
+
+                // 클립보드 복사 실행
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToastSuccess();
+                }).catch(err => {
+                    // 특수 상황용 백업 복사 모드
+                    const tempInput = document.createElement('input');
+                    tempInput.value = textToCopy;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    showToastSuccess();
+                });
+
+                function showToastSuccess() {
+                    // 성공 시 토스트 알림 노출
+                    toast.classList.add('show');
+                    
+                    // 버튼 내부 텍스트 및 아이콘 일시 교체 피드백
+                    const originalIconClass = icon.className;
+                    icon.className = "fa-solid fa-check"; // 체크 아이콘으로 전환
+                    span.textContent = "완료! ✨";
+
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        icon.className = originalIconClass; // 원래 아이콘 원복
+                        span.textContent = `${labelText} 복사`;
+                    }, 1500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
